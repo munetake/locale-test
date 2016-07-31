@@ -26,6 +26,9 @@
   },
   "dependencies": {
     "babel-preset-stage-1": "^6.5.0",
+    "cldr": "^3.5.0",
+    "cldr-core": "^29.0.0",
+    "cldr-misc-full": "^29.0.0",
     "express": "^4.14.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0"

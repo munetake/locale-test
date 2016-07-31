@@ -1,4 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+//import CLDR from "cldr";
+
+//console.log(CLDR);
 
 export default class App extends Component {
   constructor(props) {
