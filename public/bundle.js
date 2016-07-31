@@ -21475,7 +21475,6 @@
 	      alternateQuotationEnd: false,
 	      dedupeChecked: false
 	    };
-	    //    this._handleSubmit = this._handleSubmit.bind(this);
 	    _this._handleChange = _this._handleChange.bind(_this);
 	    _this._handleCheck = _this._handleCheck.bind(_this);
 	    return _this;
@@ -21486,28 +21485,6 @@
 	    value: function _handleChange(event) {
 	      this.setState({ propertyValue: event.target.value });
 	    }
-
-	    // _handleSubmit() {
-	    //   const {
-	    //     quotationStart,
-	    //     quotationEnd,
-	    //     alternateQuotationStart,
-	    //     alternateQuotationEnd,
-	    //     dedupeChecked,
-	    //   } = this.state;
-	    //   this.setState(
-	    //     {
-	    //       updatedState: {
-	    //         quotationStart,
-	    //         quotationEnd,
-	    //         alternateQuotationStart,
-	    //         alternateQuotationEnd,
-	    //         dedupeChecked,
-	    //       }
-	    //     });
-	    //
-	    // }
-
 	  }, {
 	    key: "_handleCheck",
 	    value: function _handleCheck(event) {
@@ -21524,7 +21501,6 @@
 	      var alternateQuotationStart = _state.alternateQuotationStart;
 	      var alternateQuotationEnd = _state.alternateQuotationEnd;
 	      var dedupeChecked = _state.dedupeChecked;
-	      //console.log(this.state);
 
 	      return _react2.default.createElement(
 	        "div",
@@ -21578,16 +21554,13 @@
 	            "Dedupe Data?"
 	          )
 	        ),
-	        _react2.default.createElement(_LocaleList2.default, { settings: this.state })
+	        _react2.default.createElement(_LocaleList2.default, { settings: this.state, dedupe: dedupeChecked })
 	      );
 	    }
 	  }]);
 
 	  return App;
 	}(_react.Component);
-
-	// <button onClick={this._handleSubmit} className="btn btn-primary">Submit</button>
-
 
 	exports.default = App;
 
@@ -21642,17 +21615,13 @@
 	    value: function _setStateFromProps(props) {
 	      var _this2 = this;
 
-	      // console.log(props.settings);
-	      // let queryString = "?";
-	      // Object.keys(props.settings).forEach((key) => {
-	      //   if (props.settings[key]) {
-	      //     queryString += key + "=" + props.settings[key] + "&"
-	      //   }
-	      // });
-	      // queryString = queryString.substring(0, queryString.length-1);
-	      _axios2.default.get("/api/v0/locales/", { params: props.settings }).then(function (obj) {
+	      var settings = props.settings;
+	      var dedupe = props.dedupe;
+
+	      _axios2.default.get("/api/v0/locales/", { params: settings }).then(function (obj) {
 	        _this2.setState({
-	          response: obj.data.response
+	          response: obj.data.response,
+	          dedupe: dedupe
 	        });
 	      });
 	    }
@@ -21664,11 +21633,32 @@
 	      var flag = false;
 	      if (Object.keys(this.state.response).length !== 0) {
 	        Object.keys(this.state.response["fr"]).map(function (key, index) {
-	          if (_this3.state.response["fr"][key]) {
+	          if (_this3.state.response["fr"][key] && key !== "dedupeChecked") {
 	            flag = true;
 	          }
 	        });
 	      }
+	      var dupeData = {};
+	      if (this.state.dedupe === true && Object.keys(this.state.response).length !== 0) {
+	        Object.keys(this.state.response["fr"]).map(function (key) {
+	          if (key !== "dedupeChecked") {
+	            dupeData[key] = {};
+	          }
+	        });
+	        Object.keys(this.state.response).map(function (key) {
+	          Object.keys(dupeData).map(function (property) {
+	            if (dupeData[property].hasOwnProperty(_this3.state.response[key][property])) {
+	              dupeData[property][_this3.state.response[key][property]].push(key);
+	            } else {
+	              dupeData[property][_this3.state.response[key][property]] = [];
+	              dupeData[property][_this3.state.response[key][property]].push(key);
+	            }
+	            //console.log(this.state.response[key][property])
+	          });
+	        });
+	        //console.log(dupeData["quotationStart"]["«"])
+	      }
+
 	      return _react2.default.createElement(
 	        "div",
 	        null,
@@ -21677,7 +21667,7 @@
 	          null,
 	          "Locale List"
 	        ),
-	        flag ? _react2.default.createElement(
+	        flag && this.state.dedupe === false ? _react2.default.createElement(
 	          "table",
 	          { className: "table table-striped table-bordered" },
 	          _react2.default.createElement(
@@ -21704,7 +21694,6 @@
 	            "tbody",
 	            null,
 	            Object.keys(this.state.response).map(function (key, index) {
-	              console.log("HERE");
 	              return _react2.default.createElement(
 	                "tr",
 	                { key: index },
@@ -21723,6 +21712,61 @@
 	              );
 	            })
 	          )
+	        ) : null,
+	        flag && this.state.dedupe ? _react2.default.createElement(
+	          "div",
+	          null,
+	          Object.keys(dupeData).map(function (property, outerIndex) {
+	            return _react2.default.createElement(
+	              "table",
+	              { key: outerIndex, className: "table table-striped table-bordered", style: { width: "100%", tableLayout: "fixed" } },
+	              _react2.default.createElement(
+	                "thead",
+	                null,
+	                _react2.default.createElement(
+	                  "tr",
+	                  null,
+	                  _react2.default.createElement(
+	                    "th",
+	                    null,
+	                    property
+	                  ),
+	                  _react2.default.createElement(
+	                    "th",
+	                    null,
+	                    "Countries"
+	                  )
+	                )
+	              ),
+	              _react2.default.createElement(
+	                "tbody",
+	                null,
+	                Object.keys(dupeData[property]).map(function (symbol, index) {
+	                  return _react2.default.createElement(
+	                    "tr",
+	                    { key: index },
+	                    _react2.default.createElement(
+	                      "td",
+	                      null,
+	                      symbol
+	                    ),
+	                    _react2.default.createElement(
+	                      "td",
+	                      { style: { wordWrap: "break-word" } },
+	                      dupeData[property][symbol].map(function (country, innerIndex) {
+	                        return _react2.default.createElement(
+	                          "text",
+	                          { key: innerIndex },
+	                          country,
+	                          " "
+	                        );
+	                      })
+	                    )
+	                  );
+	                })
+	              )
+	            );
+	          })
 	        ) : null
 	      );
 	    }

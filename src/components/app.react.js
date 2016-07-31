@@ -10,15 +10,7 @@ export default class App extends Component {
       alternateQuotationStart: false,
       alternateQuotationEnd: false,
       dedupeChecked: false,
-      // updatedState: {
-      //   quotationStart: false,
-      //   quotationEnd: false,
-      //   alternateQuotationStart: false,
-      //   alternateQuotationEnd: false,
-      //   dedupeChecked: false,
-      // },
     };
-//    this._handleSubmit = this._handleSubmit.bind(this);
     this._handleChange = this._handleChange.bind(this);
     this._handleCheck = this._handleCheck.bind(this);
   }
@@ -26,27 +18,6 @@ export default class App extends Component {
   _handleChange(event) {
     this.setState({ propertyValue: event.target.value });
   }
-
-  // _handleSubmit() {
-  //   const {
-  //     quotationStart,
-  //     quotationEnd,
-  //     alternateQuotationStart,
-  //     alternateQuotationEnd,
-  //     dedupeChecked,
-  //   } = this.state;
-  //   this.setState(
-  //     {
-  //       updatedState: {
-  //         quotationStart,
-  //         quotationEnd,
-  //         alternateQuotationStart,
-  //         alternateQuotationEnd,
-  //         dedupeChecked,
-  //       }
-  //     });
-  //
-  // }
 
   _handleCheck(event) {
     let obj = {}
@@ -62,7 +33,6 @@ export default class App extends Component {
       alternateQuotationEnd,
       dedupeChecked,
     } = this.state;
-    //console.log(this.state);
     return (
       <div className="container">
         <h2>Property Locale Test</h2>
@@ -75,10 +45,8 @@ export default class App extends Component {
             <h4>Dedupe Data:</h4>
             <label className="checkbox-inline"><input type="checkbox" name="dedupeChecked" checked={dedupeChecked} onClick={this._handleCheck}  />Dedupe Data?</label>
           </div>
-        <LocaleList settings={this.state}/>
+        <LocaleList settings={this.state} dedupe={dedupeChecked}/>
       </div>
     );
   }
 }
-
-// <button onClick={this._handleSubmit} className="btn btn-primary">Submit</button>

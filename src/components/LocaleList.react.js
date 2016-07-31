@@ -14,18 +14,15 @@ export default class LocaleList extends Component {
   }
 
   _setStateFromProps(props) {
-    // console.log(props.settings);
-    // let queryString = "?";
-    // Object.keys(props.settings).forEach((key) => {
-    //   if (props.settings[key]) {
-    //     queryString += key + "=" + props.settings[key] + "&"
-    //   }
-    // });
-    // queryString = queryString.substring(0, queryString.length-1);
-    Axios.get("/api/v0/locales/", {params: props.settings})
+    const {
+      settings,
+      dedupe,
+    } = props;
+    Axios.get("/api/v0/locales/", {params: settings})
       .then((obj) => {
         this.setState({
-          response: obj.data.response
+          response: obj.data.response,
+          dedupe,
         });
       });
   }
@@ -34,16 +31,38 @@ export default class LocaleList extends Component {
     let flag = false;
     if (Object.keys(this.state.response).length !== 0) {
       Object.keys(this.state.response["fr"]).map((key, index) => {
-        if (this.state.response["fr"][key]) {
+        if (this.state.response["fr"][key] && key !== "dedupeChecked") {
           flag = true;
         }
       });
     }
+    let dupeData = {}
+    if (this.state.dedupe === true && Object.keys(this.state.response).length !== 0) {
+      Object.keys(this.state.response["fr"]).map((key) => {
+        if(key !== "dedupeChecked") {
+          dupeData[key] = {}
+        }
+      })
+      Object.keys(this.state.response).map((key) => {
+        Object.keys(dupeData).map((property) => {
+          if (dupeData[property].hasOwnProperty(this.state.response[key][property])) {
+            dupeData[property][this.state.response[key][property]].push(key)
+          }
+          else {
+            dupeData[property][this.state.response[key][property]] = [];
+            dupeData[property][this.state.response[key][property]].push(key)
+          }
+          //console.log(this.state.response[key][property])
+        });
+      });
+      //console.log(dupeData["quotationStart"]["«"])
+    }
+
     return (
       <div>
         <h3>Locale List</h3>
         {
-          flag ?
+          flag && this.state.dedupe === false ?
             <table className="table table-striped table-bordered">
               <thead>
                 <tr>
@@ -60,7 +79,6 @@ export default class LocaleList extends Component {
               <tbody>
               {
                 Object.keys(this.state.response).map((key, index) => {
-                  console.log("HERE")
                   return (
                     <tr key={index}>
                     <td>{key}</td>
@@ -79,6 +97,47 @@ export default class LocaleList extends Component {
             </table>
           :
           null
+        }
+        {
+          flag && this.state.dedupe ?
+              <div>
+              {
+                Object.keys(dupeData).map((property, outerIndex) => {
+                  return (
+                    <table key={outerIndex} className="table table-striped table-bordered" style={{width: "100%", tableLayout: "fixed"}}>
+                      <thead>
+                        <tr>
+                          <th>{property}</th>
+                          <th>Countries</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {
+                        Object.keys(dupeData[property]).map((symbol, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{symbol}</td>
+                              <td style={{wordWrap: "break-word"}}>
+                              {
+                                dupeData[property][symbol].map((country, innerIndex) => {
+                                  return (
+                                    <text key={innerIndex} >{country}&nbsp;</text>
+                                  )
+                                })
+                              }
+                              </td>
+                            </tr>
+                          )
+                        })
+                      }
+                      </tbody>
+                    </table>
+                  )
+                })
+              }
+              </div>
+            :
+            null
         }
       </div>
     );
