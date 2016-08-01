@@ -5,7 +5,9 @@ export default class LocaleList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {response: {}};
+    this.state = {
+      response: {}
+    };
     this._setStateFromProps(props);
   }
 
@@ -24,7 +26,8 @@ export default class LocaleList extends Component {
           response: obj.data.response,
           dedupe,
         });
-      });
+      }
+    );
   }
 
   render() {
@@ -46,16 +49,14 @@ export default class LocaleList extends Component {
       Object.keys(this.state.response).map((key) => {
         Object.keys(dupeData).map((property) => {
           if (dupeData[property].hasOwnProperty(this.state.response[key][property])) {
-            dupeData[property][this.state.response[key][property]].push(key)
+            dupeData[property][this.state.response[key][property]].push(key);
           }
           else {
             dupeData[property][this.state.response[key][property]] = [];
-            dupeData[property][this.state.response[key][property]].push(key)
+            dupeData[property][this.state.response[key][property]].push(key);
           }
-          //console.log(this.state.response[key][property])
         });
       });
-      //console.log(dupeData["quotationStart"]["«"])
     }
 
     return (
@@ -81,14 +82,18 @@ export default class LocaleList extends Component {
                 Object.keys(this.state.response).map((key, index) => {
                   return (
                     <tr key={index}>
-                    <td>{key}</td>
-                    {
-                      Object.keys(this.state.response[key]).map((innerKey, innerIndex) => {
-                        return (
-                          <td key={innerIndex}>{this.state.response[key][innerKey]}</td>
-                        )
-                      })
-                    }
+                      <td>
+                        {key}
+                      </td>
+                      {
+                        Object.keys(this.state.response[key]).map((innerKey, innerIndex) => {
+                          return (
+                            <td key={innerIndex}>
+                              {this.state.response[key][innerKey]}
+                            </td>
+                          )
+                        })
+                      }
                     </tr>
                   )
                 })
@@ -104,7 +109,10 @@ export default class LocaleList extends Component {
               {
                 Object.keys(dupeData).map((property, outerIndex) => {
                   return (
-                    <table key={outerIndex} className="table table-striped table-bordered" style={{width: "100%", tableLayout: "fixed"}}>
+                    <table
+                      key={outerIndex}
+                      className="table table-striped table-bordered"
+                    >
                       <thead>
                         <tr>
                           <th>{property}</th>
@@ -117,14 +125,14 @@ export default class LocaleList extends Component {
                           return (
                             <tr key={index}>
                               <td>{symbol}</td>
-                              <td style={{wordWrap: "break-word"}}>
-                              {
-                                dupeData[property][symbol].map((country, innerIndex) => {
-                                  return (
-                                    <text key={innerIndex} >{country}&nbsp;</text>
-                                  )
-                                })
-                              }
+                              <td>
+                                {
+                                  dupeData[property][symbol].map((country, innerIndex) => {
+                                    return (
+                                      <text key={innerIndex}>{country}&nbsp;</text>
+                                    )
+                                  })
+                                }
                               </td>
                             </tr>
                           )

@@ -38,12 +38,52 @@ export default class App extends Component {
         <h2>Property Locale Test</h2>
           <div className="form-group property-form">
             <h4>Select Properties</h4>
-            <label className="checkbox-inline"><input type="checkbox" name="quotationStart" checked={quotationStart} onClick={this._handleCheck} />quotationStart</label>
-            <label className="checkbox-inline"><input type="checkbox" name="quotationEnd" checked={quotationEnd} onClick={this._handleCheck}  />quotationEnd</label>
-            <label className="checkbox-inline"><input type="checkbox" name="alternateQuotationStart" checked={alternateQuotationStart} onClick={this._handleCheck}  />alternateQuotationStart</label>
-            <label className="checkbox-inline"><input type="checkbox" name="alternateQuotationEnd" checked={alternateQuotationEnd} onClick={this._handleCheck}  />alternateQuotationEnd</label>
+            <label className="checkbox-inline">
+              <input
+                type="checkbox"
+                name="quotationStart"
+                checked={quotationStart}
+                onClick={this._handleCheck}
+              />
+              quotationStart
+            </label>
+            <label className="checkbox-inline">
+              <input
+                type="checkbox"
+                name="quotationEnd"
+                checked={quotationEnd}
+                onClick={this._handleCheck}
+              />
+              quotationEnd
+            </label>
+            <label className="checkbox-inline">
+              <input
+                type="checkbox"
+                name="alternateQuotationStart"
+                checked={alternateQuotationStart}
+                onClick={this._handleCheck}
+              />
+              alternateQuotationStart
+            </label>
+            <label className="checkbox-inline">
+              <input
+                type="checkbox"
+                name="alternateQuotationEnd"
+                checked={alternateQuotationEnd}
+                onClick={this._handleCheck}
+              />
+              alternateQuotationEnd
+            </label>
             <h4>Dedupe Data:</h4>
-            <label className="checkbox-inline"><input type="checkbox" name="dedupeChecked" checked={dedupeChecked} onClick={this._handleCheck}  />Dedupe Data?</label>
+            <label className="checkbox-inline">
+              <input
+                type="checkbox"
+                name="dedupeChecked"
+                checked={dedupeChecked}
+                onClick={this._handleCheck}
+              />
+              Dedupe Data?
+            </label>
           </div>
         <LocaleList settings={this.state} dedupe={dedupeChecked}/>
       </div>

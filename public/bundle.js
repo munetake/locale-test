@@ -21521,25 +21521,45 @@
 	          _react2.default.createElement(
 	            "label",
 	            { className: "checkbox-inline" },
-	            _react2.default.createElement("input", { type: "checkbox", name: "quotationStart", checked: quotationStart, onClick: this._handleCheck }),
+	            _react2.default.createElement("input", {
+	              type: "checkbox",
+	              name: "quotationStart",
+	              checked: quotationStart,
+	              onClick: this._handleCheck
+	            }),
 	            "quotationStart"
 	          ),
 	          _react2.default.createElement(
 	            "label",
 	            { className: "checkbox-inline" },
-	            _react2.default.createElement("input", { type: "checkbox", name: "quotationEnd", checked: quotationEnd, onClick: this._handleCheck }),
+	            _react2.default.createElement("input", {
+	              type: "checkbox",
+	              name: "quotationEnd",
+	              checked: quotationEnd,
+	              onClick: this._handleCheck
+	            }),
 	            "quotationEnd"
 	          ),
 	          _react2.default.createElement(
 	            "label",
 	            { className: "checkbox-inline" },
-	            _react2.default.createElement("input", { type: "checkbox", name: "alternateQuotationStart", checked: alternateQuotationStart, onClick: this._handleCheck }),
+	            _react2.default.createElement("input", {
+	              type: "checkbox",
+	              name: "alternateQuotationStart",
+	              checked: alternateQuotationStart,
+	              onClick: this._handleCheck
+	            }),
 	            "alternateQuotationStart"
 	          ),
 	          _react2.default.createElement(
 	            "label",
 	            { className: "checkbox-inline" },
-	            _react2.default.createElement("input", { type: "checkbox", name: "alternateQuotationEnd", checked: alternateQuotationEnd, onClick: this._handleCheck }),
+	            _react2.default.createElement("input", {
+	              type: "checkbox",
+	              name: "alternateQuotationEnd",
+	              checked: alternateQuotationEnd,
+	              onClick: this._handleCheck
+	            }),
 	            "alternateQuotationEnd"
 	          ),
 	          _react2.default.createElement(
@@ -21550,7 +21570,12 @@
 	          _react2.default.createElement(
 	            "label",
 	            { className: "checkbox-inline" },
-	            _react2.default.createElement("input", { type: "checkbox", name: "dedupeChecked", checked: dedupeChecked, onClick: this._handleCheck }),
+	            _react2.default.createElement("input", {
+	              type: "checkbox",
+	              name: "dedupeChecked",
+	              checked: dedupeChecked,
+	              onClick: this._handleCheck
+	            }),
 	            "Dedupe Data?"
 	          )
 	        ),
@@ -21600,7 +21625,9 @@
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LocaleList).call(this, props));
 
-	    _this.state = { response: {} };
+	    _this.state = {
+	      response: {}
+	    };
 	    _this._setStateFromProps(props);
 	    return _this;
 	  }
@@ -21653,10 +21680,8 @@
 	              dupeData[property][_this3.state.response[key][property]] = [];
 	              dupeData[property][_this3.state.response[key][property]].push(key);
 	            }
-	            //console.log(this.state.response[key][property])
 	          });
 	        });
-	        //console.log(dupeData["quotationStart"]["«"])
 	      }
 
 	      return _react2.default.createElement(
@@ -21719,7 +21744,10 @@
 	          Object.keys(dupeData).map(function (property, outerIndex) {
 	            return _react2.default.createElement(
 	              "table",
-	              { key: outerIndex, className: "table table-striped table-bordered", style: { width: "100%", tableLayout: "fixed" } },
+	              {
+	                key: outerIndex,
+	                className: "table table-striped table-bordered"
+	              },
 	              _react2.default.createElement(
 	                "thead",
 	                null,
@@ -21752,7 +21780,7 @@
 	                    ),
 	                    _react2.default.createElement(
 	                      "td",
-	                      { style: { wordWrap: "break-word" } },
+	                      null,
 	                      dupeData[property][symbol].map(function (country, innerIndex) {
 	                        return _react2.default.createElement(
 	                          "text",
