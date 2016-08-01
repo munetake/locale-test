@@ -21475,17 +21475,16 @@
 	      alternateQuotationEnd: false,
 	      dedupeChecked: false
 	    };
-	    _this._handleChange = _this._handleChange.bind(_this);
 	    _this._handleCheck = _this._handleCheck.bind(_this);
 	    return _this;
 	  }
 
+	  /**
+	   * Handle Checkbox Clicks
+	   */
+
+
 	  _createClass(App, [{
-	    key: "_handleChange",
-	    value: function _handleChange(event) {
-	      this.setState({ propertyValue: event.target.value });
-	    }
-	  }, {
 	    key: "_handleCheck",
 	    value: function _handleCheck(event) {
 	      var obj = {};
@@ -21508,7 +21507,7 @@
 	        _react2.default.createElement(
 	          "h2",
 	          null,
-	          "Property Locale Test"
+	          "Property Delimiter Locale Test (Kasey Munetake)"
 	        ),
 	        _react2.default.createElement(
 	          "div",
@@ -21637,6 +21636,11 @@
 	    value: function componentWillReceiveProps(nextProps) {
 	      this._setStateFromProps(nextProps);
 	    }
+
+	    /**
+	     * Set the state of the results display
+	     */
+
 	  }, {
 	    key: "_setStateFromProps",
 	    value: function _setStateFromProps(props) {
@@ -21644,6 +21648,7 @@
 
 	      var settings = props.settings;
 	      var dedupe = props.dedupe;
+	      // Get all of the locales based on query parameters.
 
 	      _axios2.default.get("/api/v0/locales/", { params: settings }).then(function (obj) {
 	        _this2.setState({
@@ -21657,6 +21662,7 @@
 	    value: function render() {
 	      var _this3 = this;
 
+	      // Decide what to render
 	      var flag = false;
 	      if (Object.keys(this.state.response).length !== 0) {
 	        Object.keys(this.state.response["fr"]).map(function (key, index) {
@@ -21665,6 +21671,7 @@
 	          }
 	        });
 	      }
+	      // Duplicate Data Display Functionality
 	      var dupeData = {};
 	      if (this.state.dedupe === true && Object.keys(this.state.response).length !== 0) {
 	        Object.keys(this.state.response["fr"]).map(function (key) {

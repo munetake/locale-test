@@ -15,12 +15,16 @@ export default class LocaleList extends Component {
     this._setStateFromProps(nextProps);
   }
 
+  /**
+   * Set the state of the results display
+   */
   _setStateFromProps(props) {
     const {
       settings,
       dedupe,
     } = props;
-    Axios.get("/api/v0/locales/", {params: settings})
+    // Get all of the locales based on query parameters.
+    Axios.get("/api/v0/locales/", { params: settings })
       .then((obj) => {
         this.setState({
           response: obj.data.response,
@@ -31,6 +35,7 @@ export default class LocaleList extends Component {
   }
 
   render() {
+    // Decide what to render
     let flag = false;
     if (Object.keys(this.state.response).length !== 0) {
       Object.keys(this.state.response["fr"]).map((key, index) => {
@@ -39,6 +44,7 @@ export default class LocaleList extends Component {
         }
       });
     }
+    // Duplicate Data Display Functionality
     let dupeData = {}
     if (this.state.dedupe === true && Object.keys(this.state.response).length !== 0) {
       Object.keys(this.state.response["fr"]).map((key) => {

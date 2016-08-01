@@ -11,14 +11,13 @@ export default class App extends Component {
       alternateQuotationEnd: false,
       dedupeChecked: false,
     };
-    this._handleChange = this._handleChange.bind(this);
     this._handleCheck = this._handleCheck.bind(this);
   }
 
-  _handleChange(event) {
-    this.setState({ propertyValue: event.target.value });
-  }
 
+  /**
+   * Handle Checkbox Clicks
+   */
   _handleCheck(event) {
     let obj = {}
     obj[event.target.name] = event.target.checked;
@@ -35,7 +34,7 @@ export default class App extends Component {
     } = this.state;
     return (
       <div className="container">
-        <h2>Property Locale Test</h2>
+        <h2>Property Delimiter Locale Test (Kasey Munetake)</h2>
           <div className="form-group property-form">
             <h4>Select Properties</h4>
             <label className="checkbox-inline">
